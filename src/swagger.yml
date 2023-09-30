@@ -1,0 +1,351 @@
+openapi: 3.0.0
+info:
+  title: Social Media Web APIs
+  description: APIs for social media web
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+
+tags:
+  - name: user
+    description: Operations about users
+  - name: post
+    description: Operations about posts
+  - name: follow
+    description: Operations about following
+
+paths:
+  /api/register:
+    summary: Create user
+    post:
+      tags:
+        - user
+      summary: Create user
+      operationId: register
+      requestBody:
+        description: Create user
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Users"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Users"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Users"
+        required: true
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Users"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Users"
+        "400":
+          description: Bad request
+        "500":
+          description: Internal server error
+        default:
+          description: Success
+
+  /api/login:
+    summary: User login
+    post:
+      tags:
+        - user
+      summary: User login
+      operationId: login
+      requestBody:
+        description: User login
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Users"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Users"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Users"
+        required: true
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Users"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Users"
+        "400":
+          description: Bad request
+        "500":
+          description: Internal server error
+        default:
+          description: Success
+
+  /api/{username}:
+    get:
+      tags:
+        - user
+      summary: Get profile information
+      operationId: getProfile
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: username
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Success
+        400:
+          description: Bad request
+        500:
+          description: Internal server error
+        default:
+          description: Success
+
+    put:
+      tags:
+        - user
+      summary: Update a profile
+      operationId: updateProfile
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: username
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Success
+        400:
+          description: Bad request
+        500:
+          description: Internal server error
+        default:
+          description: Success
+
+  /api/follow/{username}:
+    post:
+      tags:
+        - follow
+      summary: Follow user
+      operationId: followUser
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: username
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Success
+        400:
+          description: Bad request
+        500:
+          description: Internal server error
+        default:
+          description: Success
+
+    delete:
+      tags:
+        - follow
+      summary: Unfollow user
+      operationId: unfollowUser
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: username
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Success
+        400:
+          description: Bad request
+        500:
+          description: Internal server error
+        default:
+          description: Success
+
+  /api/change-password/{username}:
+    post:
+      tags:
+      - user
+      summary: Change user password
+      operationId: changePassword
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: username
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Success
+        400:
+          description: Bad request
+        500:
+          description: Internal server error
+        default:
+          description: Success
+
+  /api/post:
+    post:
+      tags:
+      - user
+      summary: User post a content
+      operationId: createPost
+      requestBody:
+        description: User post a content
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Posts"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Posts"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Posts"
+        required: true
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Posts"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Posts"
+        "400":
+          description: Bad request
+        "500":
+          description: Internal server error
+        default:
+          description: Success
+
+  /api/like/{postId}:
+    put:
+      tags:
+      - post
+      summary: Like user post
+      operationId: userLikePost
+      parameters:
+        - name: postId
+          in: path
+          required: true
+          description: post id
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Success
+        400:
+          description: Bad request
+        500:
+          description: Internal server error
+        default:
+          description: Success
+
+    delete:
+      tags:
+      - post
+      summary: Unlike user post
+      operationId: userUnlikePost
+      parameters:
+        - name: postId
+          in: path
+          required: true
+          description: post id
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Success
+        400:
+          description: Bad request
+        500:
+          description: Internal server error
+        default:
+          description: Success
+
+components:
+  schemas:
+    Users:
+      type: object
+      properties:
+        taskId:
+          type: string
+          description: Id of the task
+        participants:
+          type: array
+          items:
+            properties:
+              name:
+                type: string
+          description: Array of user id
+        lastActivity:
+          type: string
+          format: date-time
+          description: Date of last activity
+        unreadCount:
+          type: integer
+          format: int64
+          description: Number of unread comments
+    Posts:
+      type: object
+      properties:
+        commentId:
+          type: string
+          description: Id of the comment
+        senderId:
+          type: string
+          description: Id of the sender
+        content:
+          type: string
+          description: Content of the message
+        type:
+          type: string
+          description: Type of the message
+        file:
+          type: string
+          description: File attach of the message
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT  
+
+security:
+  - bearerAuth: [] 
