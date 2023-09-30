@@ -6,14 +6,12 @@ import dotenv from 'dotenv';
 import { connection } from './db/dbConnection'
 import { userRouter, postRouter } from './routes';
 import http from 'http';
-import { Server, Socket } from 'socket.io';
 import cors from 'cors';
 
 dotenv.config();
 
 const app: Express = express();
 const server = http.createServer(app);
-const io = new Server(server);
 
 const hostname = process.env.HOSTNAME || 'localhost';
 const port = process.env.PORT! || 3000;
